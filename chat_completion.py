@@ -6,9 +6,9 @@ from typing import Optional
 import fire
 
 from llama import Llama
-from translate_language  import  language_translator, translate_multiline_string
+from translate_language  import  language_translator
 import input_text
-import os
+import  pickle
 
 
 def main(
@@ -37,23 +37,10 @@ def main(
         temperature=temperature,
         top_p=top_p,
     )
-    bb=results[0]["generation"]['content']
-    # 将变量 text 保存到 output.py 文件中
-    print(bb)
-    os.exit()
+    # 保存变量到文件
+    with open('dialogs_results.pkl', 'wb') as file:
+        pickle.dump((dialogs, results), file)
 
-
-    output=translate_multiline_string(bb.to('cpu'))
-
-    for dialog, result in zip(dialogs, results):
-        for msg in dialog:
-            print(f"{msg['role'].capitalize()}: {input_text.sql_query}\n")
-        print(
-            f"> {result['generation']['role'].capitalize()}: {result['generation']['content']}"
-            #f"> {result['generation']['role'].capitalize()}: {translate_multiline_string(result['generation']['content'])}"
-
-        )
-        print("\n==================================\n")
 
 
 if __name__ == "__main__":
