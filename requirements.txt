@@ -1,4 +1,7 @@
+fairseq
+transformers
 torch
-fairscale
-fire
-sentencepiece
+subword-nmt
+langdetect
+sacremoses
+optimum
