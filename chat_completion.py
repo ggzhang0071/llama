@@ -7,9 +7,8 @@ import fire
 
 from llama import Llama
 from translate_language  import  language_translator
+import  pickle, os 
 import input_text
-import  pickle
-
 
 def main(
     ckpt_dir: str,
@@ -19,6 +18,7 @@ def main(
     max_seq_len: int = 512,
     max_batch_size: int = 8,
     max_gen_len: Optional[int] = None,
+    #input_text: str = 'default'
 ):
     generator = Llama.build(
         ckpt_dir=ckpt_dir,
@@ -26,8 +26,9 @@ def main(
         max_seq_len=max_seq_len,
         max_batch_size=max_batch_size,
     )
-    text=language_translator(input_text.sql_query) 
-
+    text=input_text.query_text
+    #print(text, "this is a test")
+    text=language_translator(text) 
     dialogs = [
         [{"role": "user", "content": text}]
         ]
@@ -35,13 +36,11 @@ def main(
         dialogs,  # type: ignore
         max_gen_len=max_gen_len,
         temperature=temperature,
-        top_p=top_p,
-    )
-    # 保存变量到文件
-    with open('dialogs_results.pkl', 'wb') as file:
-        pickle.dump((dialogs, results), file)
+        top_p=top_p,)
 
-
+    file_path = 'dialogs_results.pkl'
+    with open(file_path, 'wb') as file:
+        pickle.dump((input_text.query_text, dialogs, results), file)
 
 if __name__ == "__main__":
     fire.Fire(main)

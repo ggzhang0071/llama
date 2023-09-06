@@ -45,7 +45,7 @@ def detect_language(text):
     return lang, confidence
 
 def language_translator (text):
-    lang,confidence = detect_language(text,)
+    lang = detect_language(text)
     if lang == 'zh':
         text= translator_zh_to_en(text)
     elif lang == 'en':
@@ -96,10 +96,18 @@ if __name__=="__main__":
     """text="this is a monster"
     text=language_translator(text)  # 输出中文
     print(text)
-    """
+    
     import  output
     text=output.sql_query
     print(translate_multiline_string(text))
+    """
+
+    input_text="who are you"
+    text=language_translator(input_text) 
+    
+
+
+
 
 
    

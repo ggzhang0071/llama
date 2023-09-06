@@ -5,3 +5,9 @@ subword-nmt
 langdetect
 sacremoses
 optimum
+Flask
+gradio
+langchain
+openai
+langid
+
