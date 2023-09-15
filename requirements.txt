@@ -10,4 +10,5 @@ gradio
 langchain
 openai
 langid
+sacremoses
 
