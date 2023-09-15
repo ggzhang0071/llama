@@ -1,1 +1,1 @@
-query_text = "你能做什么"
+query_text = """what  is the data analysis?"""

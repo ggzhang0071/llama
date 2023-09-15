@@ -2,6 +2,7 @@ import langid
 #from fairseq_translation1 import translate
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, AutoModelWithLMHead,pipeline
 import torch
+import re
 
 def detect_program_language(text):
     # SQL keywords
@@ -57,12 +58,14 @@ def language_translator (text):
         else:
             raise ValueError("We only support Chinese to English translation now!!!")
     return text
+    
 
 
 def translate_multiline_string(s):
     lines = s.split('\n')
     translated_lines = []
     counter=0
+    
     for line in lines:
         if line.strip()=="":
             translated_lines.append(line)
@@ -70,7 +73,18 @@ def translate_multiline_string(s):
             if "```" in line:
                 counter+=1
             if counter%2==0:
-                translated_lines.append(translate_en_to_zh(line))
+                if line.startswith("*"):
+                    print(line)
+                    segments = re.split(r"(\* `.*?`)", line)
+                    for i, segment in enumerate(segments):
+                        if segment=="":
+                            del segments[i]
+                            continue
+                        if not segment.startswith("* `") and not segment.endswith("`"):
+                            segments[i] = translate_en_to_zh(segment)
+                    translated_lines.append(''.join(segments))
+                else:
+                    translated_lines.append(translate_en_to_zh(line))
             else:
                 translated_lines.append(line)
 
