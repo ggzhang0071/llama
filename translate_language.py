@@ -27,7 +27,7 @@ def detect_program_language(text):
 def translate_en_to_zh(text):
     device = torch.device("cpu")
     mode_name = 'liam168/trans-opus-mt-en-zh'
-    model = AutoModelForSeq2SeqLM.from_pretrained(mode_name).to(device)
+    model = AutoModelForSeq2SeqLM.from_pretrained(mode_name,mirror='https://mirrors.tuna.tsinghua.edu.cn/hugging-face-models').to(device)
     tokenizer = AutoTokenizer.from_pretrained(mode_name)
     translation = pipeline("translation_zh_to_en", model=model, tokenizer=tokenizer)
     outputs=translation(text, max_length=400)
